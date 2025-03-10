@@ -37,11 +37,12 @@ Una ves puedes ejecutar el exe de la siguiente forma
 En sistemas Unix/linux como: 
 
 ```bash
-./tranferencia`
+./tranferencia
 
 En sistemas Windows como:
 
-``tranferencia.exe`
+``` bash
+tranferencia.exe
 
 ### Conclusión
 Mi programa cumple con todas las funcionalidades requeridas en el semillero.
