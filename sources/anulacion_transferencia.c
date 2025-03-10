@@ -32,17 +32,17 @@ void anulacion(char id[]) {
         return;
     }
     
-    char linea[80];
+    char linea[200];
     int encontrado = 0;
     while (fgets(linea, sizeof(linea), archivo)) {
         int idarchivo;
         float monto;
-        char fecha[10], tipo[10], codigo[18], seguridad[6];
+        char fecha[10], tipo[10], codigo[18], seguridad[6], franquicia[20];
 
-        int resultado = sscanf(linea, " | %d | %s | %f | %s | %9s | %10s |", 
-                               &idarchivo, codigo, &monto, seguridad, fecha, tipo);
+        int resultado = sscanf(linea, "| %d | %s | %s | %f | %s | %9s | %10s |", 
+                               &idarchivo, codigo, &franquicia,  &monto, seguridad, fecha, tipo);
         
-        if (resultado == 6) {
+        if (resultado == 7) {
             if (idarchivo == strtol(id, NULL, 10)) {
                 encontrado = 1;
                 system("cls");
@@ -73,7 +73,7 @@ void anulacion(char id[]) {
 
                     printf("Ingresa el codigo de seguridad CVV: ");
                     scanf("%s", digitos_cvv);
-                    if (validar_digitos_cvv(digitos_cvv) == 0) {
+                    if (validar_digitos_cvv(digitos_cvv, franquicia) == 0) {
                         system("cls");
                         printf("Ingresaste mal el código de seguridad.\nPulsa una tecla para salir al menu");
                         getch();
@@ -84,7 +84,7 @@ void anulacion(char id[]) {
                     }
                     system("cls");
 
-                    fprintf(tempArchivo, "| %d | %s | %.2f | %s | %s | ANULADA |\n", idarchivo, codigo, monto, seguridad, fecha);
+                    fprintf(tempArchivo, "| %d | %s | %s | %.2f | %s | %s | ANULADA |\n", idarchivo, codigo, franquicia, monto, seguridad, fecha);
                     printf("La transaccion ha sido anulada correctamente.\n\nOprime una tecla para volver al menu ");
                     getch();
                 } else {
@@ -133,14 +133,27 @@ int validar_utimos_digitos_pan(const char *utimos_digitos_pan) {
     return 1;
 }
 
-int validar_digitos_cvv(const char *digitos_cvv) {
-    if (strlen(digitos_cvv) != 3) {
-        return 0;
-    }
-    for (int i = 0; i < strlen(digitos_cvv); i++) {
-        if (!isdigit(digitos_cvv[i])) {
+int validar_digitos_cvv(const char *digitos_cvv, const char *franquicia) {
+
+    if(franquicia=="AMERICA-EXPRESS"){
+        if (strlen(digitos_cvv) != 4) {
             return 0;
         }
+        for (int i = 0; i < strlen(digitos_cvv); i++) {
+            if (!isdigit(digitos_cvv[i])) {
+                return 0;
+            }
+        }
+    }else{
+        if (strlen(digitos_cvv) != 3) {
+            return 0;
+        }
+        for (int i = 0; i < strlen(digitos_cvv); i++) {
+            if (!isdigit(digitos_cvv[i])) {
+                return 0;
+            }
+        }
     }
+    
     return 1;
 }

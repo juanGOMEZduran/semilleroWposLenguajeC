@@ -1,95 +1,76 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <windows.h>
 #include <conio.h>
+#include <string.h>
 #include "../headers/imprimir_transacion.h"
 
+void imprimir_transacciones() {
+    const char *archivo_path = "archivos/transferenciad.txt";
+    int total_lineas = cantidad_de_lineas(archivo_path);
 
+    if (total_lineas <= 0) {
+        printf("Error: No hay registros todavía.\n");
+        return;
+    }
 
-void imprimir_transacciones()
-{
-    const char *archivos = "archivos/transferenciad.txt";
-    int lineas = cantidad_de_lineas(archivos);
+    FILE *archivo = fopen(archivo_path, "r");
+    if (archivo == NULL) {
+        printf("Error: No se pudo abrir el archivo.\n");
+        return;
+    }
 
-    if (lineas != 0){
-        system("cls");
-        //printf("El archivo tiene %d Registros.\n", lineas);
-
-        FILE *archivo = fopen(archivos, "r");
-        if (archivo == NULL)
-        {
-            system("cls");
-            printf("Error: No se pudo abrir el archivo.\n");
-            return;
-        }
-
-        // Almacenar las líneas en un array dinámico
-        int max_lineas = cantidad_de_lineas(archivos);
-        if (max_lineas <= 0)
-        {
-            fclose(archivo);
-            return;
-        }
-
-        char **lineas = (char **)malloc(max_lineas * sizeof(char *));
-        if (lineas == NULL)
-        {
-            printf("Error: No se pudo asignar memoria.\n");
-            fclose(archivo);
-            return;
-        }
-
-        char buffer[256]; // Buffer para leer cada línea
-        int index = 0;
-
-        while (fgets(buffer, sizeof(buffer), archivo) && index < max_lineas)
-        {
-            lineas[index] = strdup(buffer); // Copiar la línea en memoria dinámica
-            if (lineas[index] == NULL)
-            {
-                printf("Error: No se pudo asignar memoria para una línea.\n");
-                break;
-            }
-            index++;
-        }
-
+    // Reservar memoria para almacenar las líneas
+    char **lineas_array = (char **)malloc(total_lineas * sizeof(char *));
+    if (lineas_array == NULL) {
+        printf("Error: No se pudo asignar memoria.\n");
         fclose(archivo);
+        return;
+    }
 
-        for (int i = index - 1; i >= 0; i--)
-        {
-            system("cls");
-            printf("| ID | NUMERO DE CUENTA | MONTO | CVV | FECHA DE EXPEDICION | TIPO DE COMPRA | \n ");
-            printf("%s", lineas[i]);
-            printf("\n\n hunde cualquier tecla para ver el siguiente --->");
+    char buffer[256]; 
+    int index = 0;
 
-            getch();
-            free(lineas[i]); // Liberar memoria de cada línea
+    while (fgets(buffer, sizeof(buffer), archivo) && index < total_lineas) {
+        lineas_array[index] = strdup(buffer);
+        if (lineas_array[index] == NULL) {
+            printf("Error: No se pudo asignar memoria para la línea %d.\n", index);
+            break;
         }
+        index++;
+    }
 
-        free(lineas);
+    fclose(archivo);
+
+    // Imprimir desde la última línea hasta la primera
+    for (int i = index-1; i >= 0; i--) {
+        system("cls");
+        printf("| ID | NUMERO DE CUENTA | FRANQUICIA | MONTO | CVV | FECHA DE EXPEDICION | TIPO DE COMPRA |\n");
+        printf("%s", lineas_array[i]);
+        printf("\n\nPresiona cualquier tecla para ver el siguiente --->");
+
+        getch();
+        free(lineas_array[i]); // Liberar la memoria de cada línea
     }
-    else
-    {
-        printf("Error: No hay registros todavia.\n");
-    }
+
+    free(lineas_array); // Liberar el array de punteros
 }
 
-int cantidad_de_lineas(const char *archivos)
-{
-    FILE *archivo = fopen(archivos, "r");
-    if (archivo == NULL)
-    {
+int cantidad_de_lineas(const char *archivo_path) {
+    FILE *archivo = fopen(archivo_path, "r");
+    if (archivo == NULL) {
         printf("Error: No se encontró el archivo.\n");
         return -1;
     }
+
     int count = 0;
     char c;
-    while ((c = fgetc(archivo)) != EOF)
-    {
-        if (c == '\n')
-        {
+    while ((c = fgetc(archivo)) != EOF) {
+        if (c == '\n') {
             count++;
         }
     }
+
     fclose(archivo);
     return count;
 }

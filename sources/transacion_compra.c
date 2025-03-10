@@ -12,17 +12,18 @@
 
 void hacer_compra(float precio) {
     int contador = cantidad_de_lineas_archivo();
-    char pan[17]; // Se cambia a 17 para permitir el '\0'
+    char pan[17];
     char fecha_expiracion[6];
-    char cvv[4];
+    char cvv[5];
     int h;
+    char *franquisia;
     
     system("cls");
 
     // Validar límite de transacciones
     if (contador >= 20) {
         printf("-------------------------------------------------\n");
-        printf("\n Ojo, ya no puedes agregar más transacciones. Has alcanzado tu límite de 20 transacciones. \n \n Pulsa cualquier tecla para volver al menu.");
+        printf("\n Ojo, ya no puedes agregar más transacciones. Has alcanzado tu limite de 20 transacciones. \n \n Pulsa cualquier tecla para volver al menu.");
         printf("-------------------------------------------------\n");
         getch();
         return;
@@ -42,6 +43,9 @@ void hacer_compra(float precio) {
         return;
     }
 
+    franquisia =  mirar_franquisia(pan);
+
+
     // Leer CVV
     system("cls");
     printf("Ingresa el CVV de la tarjeta: \n");
@@ -49,7 +53,7 @@ void hacer_compra(float precio) {
     fflush(stdin);
     system("cls");
 
-    int cvvAcept = validar_cvv(cvv);
+    int cvvAcept = validar_cvv(cvv, franquisia);
     if (cvvAcept == 0) {
         system("cls");
 
@@ -74,7 +78,7 @@ void hacer_compra(float precio) {
     }
 
     h = contador;
-    guardar_archivo(h, pan, precio, cvv, fecha_expiracion, 1);
+    guardar_archivo(h, pan, franquisia, precio, cvv, fecha_expiracion, 1);
     contador++;
     system("cls");
     printf("\nTransaccion agregada (Total de transacciones: %d) \n", contador);
@@ -85,15 +89,66 @@ void hacer_compra(float precio) {
 
 int validar_pan(const char *pan) {
     int longi = strlen(pan);
+    int suma = 0, digito, doble;
+    // system("cls");
+    // printf("Longitud: %d", longi);
+    // getch();
+    
     if (longi < 13 || longi > 16) {
         return 0;
     }
+
     for (int i = 0; i < longi; i++) {
         if (!isdigit(pan[i])) {
             return 0;
         }
     }
-    return 1;
+    
+    for (int i = 0; i < longi; i++) {
+        digito = pan[i] - '0';
+        if ((i % 2) == 0) {
+            doble = digito * 2;
+            if (doble > 9) {
+                doble = (doble % 10) + 1; // Sumar los dígitos del resultado
+            }
+            suma += doble;
+        } else {
+            suma += digito;
+        }
+    }
+    
+    // system("cls");
+    // printf("Suma Luhn: %d", suma);
+    // getch();
+    
+    if (suma % 10 == 0) {
+        system("cls");
+        printf("Tarjeta valida\n\n Oprime una tecla para continuar ");
+        getch();
+        return 1;
+    } else {
+        system("cls");
+        printf("Tarjeta Rechazada\n\n Oprime una tecla para continuar ");
+        getch();
+        return 0;
+    }
+}
+
+char *mirar_franquisia(const char *pan){
+    int longi = strlen(pan);
+    if(((pan[0] - '0') == 4) && (longi >= 13 || longi <= 16 ) ){
+        return "VISA";
+    }
+    if((((pan[0] - '0') == 5) || ((pan[0] - '0') == 2) ) && (longi >= 13 || longi <= 16 )){
+        return "MASTERCARD";
+
+    }
+    if((((pan[0] - '0') == 3) ) && (longi >= 13 || longi <= 16 )){
+        return "AMERICA-EXPRESS";
+
+    }
+
+    return "sin-franquisia";
 }
 
 int validar_fecha_exp(const char *fecha_expiracion) {
@@ -123,45 +178,53 @@ int validar_fecha_exp(const char *fecha_expiracion) {
     return 1;
 }
 
-int validar_cvv(const char *cvv) {
-    if (strlen(cvv) != 3) {
-        return 0;
-    }
-    for (int i = 0; i < strlen(cvv); i++) {
-        if (!isdigit(cvv[i])) {
+int validar_cvv(const char *cvv, const char *franquisia) {
+
+    if(franquisia=="AMERICA-EXPRESS"){
+        if (strlen(cvv) != 4) {
             return 0;
         }
+        for (int i = 0; i < strlen(cvv); i++) {
+            if (!isdigit(cvv[i])) {
+                return 0;
+            }
+        }
+    }else{
+        if (strlen(cvv) != 3) {
+            return 0;
+        }
+        for (int i = 0; i < strlen(cvv); i++) {
+            if (!isdigit(cvv[i])) {
+                return 0;
+            }
+        }
     }
+    
     return 1;
 }
 
-
-int cantidad_de_lineas_archivo(){
-    FILE *archivo;
-    archivo = fopen("archivos/transferenciad.txt", "r");
-    if (archivo == NULL)
-    {
+int cantidad_de_lineas_archivo() {
+    FILE *archivo = fopen("archivos/transferenciad.txt", "r");
+    if (archivo == NULL) {
         printf("No se encontraron transacciones para cerrar.\n");
         return 0;
     }
+
     int cantidad_transacciones = 0;
-    char linea[80];
+    char linea[200]; // Ajusta el tamaño según la longitud máxima esperada
 
-
-    while (fgets(linea, sizeof(linea), archivo))
-    {
+    while (fgets(linea, sizeof(linea), archivo)) {
         int id, seguridad;
         float monto;
-        char fecha[10], tipo[10], codigo[20];
+        char fecha[10], tipo[10], codigo[20], franquicia[20];
 
-        int resultado = sscanf(linea, " | %d | %s | %f | %d | %9s | %10s |", 
-                               &id, codigo, &monto, &seguridad, fecha, tipo);
-        if (resultado == 6)
-        {
+        int resultado = sscanf(linea, "| %d | %19s | %19s | %f | %d | %9s | %9s |", 
+                               &id, codigo, franquicia, &monto, &seguridad, fecha, tipo);
+        if (resultado == 7) {
             cantidad_transacciones++;
         }
     }
-    return cantidad_transacciones;
-    fclose(archivo);
 
+    fclose(archivo);
+    return cantidad_transacciones;
 }

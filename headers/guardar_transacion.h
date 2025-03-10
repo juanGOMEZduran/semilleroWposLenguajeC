@@ -4,7 +4,7 @@
 #include "transacion_compra.h"
 #include "imprimir_transacion.h"
 
-void guardar_archivo(int h,  char* pan, float precio, char* cvv,  char* fecha_expiracion, short estado);
+void guardar_archivo(int h,  char* pan,char* franquisia, float precio, char* cvv, char* fecha_expiracion, short estado);
 
 
 #endif

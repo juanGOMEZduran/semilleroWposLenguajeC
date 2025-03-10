@@ -1,0 +1,24 @@
+# Archivos de compilación
+*.o
+*.out
+*.a
+*.so
+*.dll
+
+# Archivos de depuración
+*.dSYM/
+*.stackdump
+
+# Configuración de Visual Studio Code
+.vscode/
+
+# Configuración de CLion y CMake
+.idea/
+cmake-build-*/
+CMakeCache.txt
+CMakeFiles/
+Makefile
+compile_commands.json
+
+# Archivos de logs
+*.log
