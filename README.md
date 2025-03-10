@@ -28,14 +28,16 @@ G. **Salir del programa:** Este método solo realiza el **CIERRE** del programa,
 
 Si en el caso no tienes el archivo .exe que en mi caso lo llamo como **tranferencia.exe**, puedes utilizar el terminar en sistemas linux o el cmd o poweshell, para ejecutarlo vas a escribir un comando, el cual es el siguiente 
 
-``gcc main.c sources/* -o  tranferencia.exe`
+```bash
+gcc main.c sources/* -o  tranferencia.exe`
 
 Este comando creeara automaticamente el ejecutable para usar a disposición del usuario.
 Una ves puedes ejecutar el exe de la siguiente forma 
 
 En sistemas Unix/linux como: 
 
-``./tranferencia`
+```bash
+./tranferencia`
 
 En sistemas Windows como:
 
