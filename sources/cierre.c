@@ -21,22 +21,24 @@ void realizar_cierre()
     float monto_total = 0;
     char linea[256];
     system("cls");
-    printf("\n------ REPORTE GENERAL ------\n");
+    
 
-    while (fgets(linea, sizeof(linea), archivo))
-    {
+    while (fgets(linea, sizeof(linea), archivo)) {
         int id, seguridad;
         float monto;
-        char fecha[10], tipo[10], codigo[20];
+        char fecha[15], tipo[15], codigo[20], franquicia[20];
 
-        int resultado = sscanf(linea, " | %d | %s | %f | %d | %9s | %10s |", 
-                               &id, codigo, &monto, &seguridad, fecha, tipo);
+        int resultado = sscanf(linea, " | %d | %19s | %19s | %f | %d | %14s | %14s |", 
+                               &id, codigo, franquicia, &monto, &seguridad, fecha, tipo);
         
-        if (resultado == 6)
-        {
+        if (resultado == 7) {
             cantidad_transacciones++;
-            monto_total += monto;
-
+            
+            if (strcmp(tipo, "COMPRA")==0)
+            {
+                monto_total += monto;
+            }
+            
             if (strcmp(tipo, "COMPRA") == 0)
                 compras++;
             else if (strcmp(tipo, "ANULADA") == 0)
@@ -44,22 +46,19 @@ void realizar_cierre()
         }
     }
 
-    fclose(archivo);
-    if(cantidad_transacciones==0){
-        printf("No se econtraron registros \n\n Pulsa una tecla para volver al menu ");
-        getch();
-    }else{
-        printf("Total de transacciones: %d\n", cantidad_transacciones);
-        printf("Monto total acumulado: %.2f\n", monto_total);
-        printf("Total de COMPRA: %d\n", compras);
-        printf("Total de ANULADA: %d\n", anuladas);
-        printf("\n\nPulsa cualquier tecla para cerrar y borrar la informacion ");
-        getch();
-    }
-    
+    system("cls");
+    printf("\n------ REPORTE GENERAL DEL CIERRE ------\n");
+    printf("Total de transacciones: %d\n", cantidad_transacciones);
+    printf("Monto total acumulado: %.2f\n", monto_total);
+    printf("Total de COMPRA: %d\n", compras);
+    printf("Total de ANULADA: %d\n", anuladas);
+    printf("\n\nPulsa cualquier tecla para cerrar y borrar la informacion ");
+    getch();
 
+    fclose(archivo);
     archivo = fopen("archivos/transferenciad.txt", "w"); // Abrir en modo escritura para borrar contenido
     fclose(archivo);
+    
 
     return;
 }

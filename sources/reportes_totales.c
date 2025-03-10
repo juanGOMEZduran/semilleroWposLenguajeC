@@ -30,8 +30,12 @@ void reporte() {
         
         if (resultado == 7) {
             cantidad_transacciones++;
-            monto_total += monto;
-
+            
+            if (strcmp(tipo, "COMPRA")==0)
+            {
+                monto_total += monto;
+            }
+            
             if (strcmp(tipo, "COMPRA") == 0)
                 compras++;
             else if (strcmp(tipo, "ANULADA") == 0)

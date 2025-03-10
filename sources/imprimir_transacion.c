@@ -10,7 +10,7 @@ void imprimir_transacciones() {
     int total_lineas = cantidad_de_lineas(archivo_path);
 
     if (total_lineas <= 0) {
-        printf("Error: No hay registros todavía.\n");
+        printf("Error: No hay registros todavia.\n");
         return;
     }
 

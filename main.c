@@ -33,10 +33,13 @@ int main()
             "Oprime (6): Salir del programa\n\n"
 
             "----------------------------------------\n\n");
-     
-        scanf("%hd", &op);
+            if(scanf("%hd", &op) != 1){
+                printf("Entrada no válida. Inténtelo de nuevo.\n");
+                while (getchar() != '\n'); 
+                op = -1;
+            }
+        
         fflush(stdin);
-
         switch (op)
         {
         case 1:
