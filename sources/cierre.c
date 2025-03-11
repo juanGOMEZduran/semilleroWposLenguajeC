@@ -9,7 +9,7 @@ void realizar_cierre()
 
 {
     FILE *archivo;
-    archivo = fopen("archivos/transferenciad.txt", "r");
+    archivo = fopen("archivos/transferenciad.dat", "r");
     if (archivo == NULL)
     {
         printf("No se encontraron transacciones para cerrar.\n");
@@ -56,7 +56,7 @@ void realizar_cierre()
     getch();
 
     fclose(archivo);
-    archivo = fopen("archivos/transferenciad.txt", "w"); // Abrir en modo escritura para borrar contenido
+    archivo = fopen("archivos/transferenciad.dat", "w"); // Abrir en modo escritura para borrar contenido
     fclose(archivo);
     
 

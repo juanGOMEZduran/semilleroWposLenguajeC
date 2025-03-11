@@ -202,7 +202,7 @@ int validar_cvv(const char *cvv, const char *franquisia) {
 }
 
 int cantidad_de_lineas_archivo() {
-    FILE *archivo = fopen("archivos/transferenciad.txt", "r");
+    FILE *archivo = fopen("archivos/transferenciad.dat", "r");
     if (archivo == NULL) {
         printf("No se encontraron transacciones para cerrar.\n");
         return 0;

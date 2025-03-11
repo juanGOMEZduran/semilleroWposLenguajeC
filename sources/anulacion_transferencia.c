@@ -7,7 +7,7 @@
 
 void anulacion(char id[]) {  
 
-    const char *archivo_path = "archivos/transferenciad.txt";
+    const char *archivo_path = "archivos/transferenciad.dat";
     int total_lineas = cantidad_de_linea_anulacion(archivo_path);
 
     if(total_lineas==0){
@@ -15,7 +15,7 @@ void anulacion(char id[]) {
         printf("no hay registros en el archivo");
         getch();
     }else{
-        FILE *archivo = fopen("archivos/transferenciad.txt", "r");
+        FILE *archivo = fopen("archivos/transferenciad.dat", "r");
         if (archivo == NULL) {
             printf("No se encontraron transacciones para buscar.\n");
             return;
@@ -35,7 +35,7 @@ void anulacion(char id[]) {
 
         
         
-        FILE *tempArchivo = fopen("archivos/temp_transferenciad.txt", "w");
+        FILE *tempArchivo = fopen("archivos/temp_transferenciad.dat", "w");
         if (tempArchivo == NULL) {
             printf("No se pudo crear el archivo temporal.\n");
             fclose(archivo);
@@ -72,7 +72,7 @@ void anulacion(char id[]) {
                             system("cls");
                             fclose(archivo);
                             fclose(tempArchivo);
-                            remove("archivos/temp_transferenciad.txt");
+                            remove("archivos/temp_transferenciad.dat");
                             return;
                         }else{
                             system("cls");
@@ -89,7 +89,7 @@ void anulacion(char id[]) {
                             getch();
                             fclose(archivo);
                             fclose(tempArchivo);
-                            remove("archivos/temp_transferenciad.txt");
+                            remove("archivos/temp_transferenciad.dat");
                             return;
                         }
                         system("cls");
@@ -112,8 +112,8 @@ void anulacion(char id[]) {
 
         fclose(archivo);
         fclose(tempArchivo);
-        remove("archivos/transferenciad.txt");
-        rename("archivos/temp_transferenciad.txt", "archivos/transferenciad.txt");
+        remove("archivos/transferenciad.dat");
+        rename("archivos/temp_transferenciad.dat", "archivos/transferenciad.dat");
 
         if (!encontrado) {
             system("cls");

@@ -9,7 +9,7 @@ void ocultar_numero_cuenta(char *numero_cuenta, char *resultado);
 void navegar_transacciones();
 
 void imprimir_transacciones() {
-    const char *archivo_path = "archivos/transferenciad.txt";
+    const char *archivo_path = "archivos/transferenciad.dat";
     int total_lineas = cantidad_de_lineas(archivo_path);
 
     if (total_lineas <= 0) {

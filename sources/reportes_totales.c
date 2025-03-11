@@ -6,7 +6,7 @@
 #include "../headers/reportes_totales.h"
 
 void reporte() {
-    FILE *archivo = fopen("archivos/transferenciad.txt", "r");
+    FILE *archivo = fopen("archivos/transferenciad.dat", "r");
     if (archivo == NULL) {
         printf("No se encontraron transacciones.\n");
         return;
