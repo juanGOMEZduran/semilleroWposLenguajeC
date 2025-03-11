@@ -6,4 +6,5 @@
 void imprimir_transacciones();
 int cantidad_de_lineas(const char *archivos);
 
+
 #endif

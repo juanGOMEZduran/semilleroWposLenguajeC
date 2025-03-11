@@ -44,25 +44,34 @@ int main()
         switch (op)
         {
         case 1:
-            system("cls");
-            printf("Escribe el precio a pagar\n");
-            scanf("%s", entrada);
-            
-            fflush(stdin);
-
-            if (validar_float(entrada)) {
-                precio = atof(entrada);
-                hacer_compra(precio); 
-            } else {
+            c=cantidad_de_lineas_archivo_main();
+            if(c==20){
                 system("cls");
-                printf("Entrada invalida.\n\nOprime una tecla para salir al menu");
+                printf("ya hay 20 transacciones registradas \n\n Oprime una tecla para volver al menu");
                 getch();
+                system("cls");
+            }else{
+                system("cls");
+                printf("Escribe el precio a pagar\n");
+                scanf("%s", entrada);
+                
+                fflush(stdin);
+
+                if (validar_float(entrada)) {
+                    precio = atof(entrada);
+                    hacer_compra(precio); 
+                } else {
+                    system("cls");
+                    printf("Entrada invalida.\n\nOprime una tecla para salir al menu");
+                    getch();
                 
 
             }
-            system("cls");
+                system("cls");
+            }
             
-            break;
+            
+        break;
 
         case 2:
             system("cls");

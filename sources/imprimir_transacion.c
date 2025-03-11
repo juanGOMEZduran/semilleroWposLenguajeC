@@ -40,6 +40,7 @@ void navegar_transacciones(char lineas[100][256], int num_lineas) {
     
     do {
         system("cls");
+        printf("+----+----------------------+--------------------+------------+-----+-------------------+------------------+\n");
         
         printf("| %-4s | %-18s | %-19s | %-25s | %-9s | %-12s | %-10s |\n",
                " ID ", " NUMERO DE CUENTA ", " FRANQUICIA ", " MONTO ", " CVV ", " FECHA EXP ", " TIPO ");
@@ -55,6 +56,7 @@ void navegar_transacciones(char lineas[100][256], int num_lineas) {
             datos[j++] = token;
             token = strtok(NULL, "|");
         }
+        printf("+----+----------------------+--------------------+------------+-----+-------------------+------------------+\n");
 
         if (j < 7) {
             printf("| Error al leer la línea: %s |\n", lineas[indice]);
@@ -71,7 +73,7 @@ void navegar_transacciones(char lineas[100][256], int num_lineas) {
         printf("[ ");
         if (indice > 0) printf("a - Anterior ");
         if (indice < num_lineas - 1) printf("d - Siguiente ");
-        printf("] (Presiona 'q' para salir)\n");
+        printf("] (Presiona doblemente 'q' para salir, o 'q' mas cualquier tecla)\n");
         
         tecla = getch();
         if (tecla == 'a' && indice > 0) indice--;

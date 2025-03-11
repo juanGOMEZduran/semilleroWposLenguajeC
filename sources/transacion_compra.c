@@ -78,10 +78,6 @@ void hacer_compra(float precio) {
     }
     contador++;
     h = contador;
-    system("cls");
-    printf("%d", h);
-    getch();
-    system("cls");
     guardar_archivo(h, pan, franquisia, precio, cvv, fecha_expiracion, 1);
     system("cls");
     printf("\nTransaccion agregada (Total de transacciones: %d) \n", contador);
@@ -93,9 +89,6 @@ void hacer_compra(float precio) {
 int validar_pan(const char *pan) {
     int longi = strlen(pan);
     int suma = 0, digito, doble;
-    // system("cls");
-    // printf("Longitud: %d", longi);
-    // getch();
     
     if (longi < 13 || longi > 16) {
         return 0;
@@ -119,10 +112,6 @@ int validar_pan(const char *pan) {
             suma += digito;
         }
     }
-    
-    // system("cls");
-    // printf("Suma Luhn: %d", suma);
-    // getch();
     
     if (suma % 10 == 0) {
         system("cls");
