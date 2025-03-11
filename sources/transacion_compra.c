@@ -76,10 +76,13 @@ void hacer_compra(float precio) {
         system("cls");
         return;
     }
-
-    h = contador;
-    guardar_archivo(h, pan, franquisia, precio, cvv, fecha_expiracion, 1);
     contador++;
+    h = contador;
+    system("cls");
+    printf("%d", h);
+    getch();
+    system("cls");
+    guardar_archivo(h, pan, franquisia, precio, cvv, fecha_expiracion, 1);
     system("cls");
     printf("\nTransaccion agregada (Total de transacciones: %d) \n", contador);
     printf("Presiona cualquier tecla para continuar");
@@ -147,8 +150,12 @@ char *mirar_franquisia(const char *pan){
         return "AMERICA-EXPRESS";
 
     }
+    if((((pan[0] - '0') == 6) ) && (longi >= 13 || longi <= 16 )){
+        return "DISCOVER-CARD";
 
-    return "sin-franquisia";
+    }
+
+    return "buscando-franquisia";
 }
 
 int validar_fecha_exp(const char *fecha_expiracion) {
@@ -166,11 +173,13 @@ int validar_fecha_exp(const char *fecha_expiracion) {
 
     int mes = (fecha_expiracion[0] - '0') * 10 + (fecha_expiracion[1] - '0');
     int anio = 2000 + (fecha_expiracion[3] - '0') * 10 + (fecha_expiracion[4] - '0');
-    if (mes < 1 || mes > 12) {
+    if (mes < 01 || mes > 12) {
         return 0;
     }
-    if (mes < (tm_info->tm_mon + 1)) {
-        return 0;
+    if(anio == (tm_info->tm_year + 1900)){
+        if (mes < (tm_info->tm_mon + 1)) {
+            return 0;
+        }
     }
     if (anio < (tm_info->tm_year + 1900)) {
         return 0;

@@ -47,7 +47,7 @@ void reporte() {
 
     if (cantidad_transacciones == 0) {
         system("cls");
-        printf("No se encontraron registros.\n\nPresiona cualquier tecla para volver al menú.");
+        printf("No se encontraron registros.\n\nPresiona cualquier tecla para volver al menu.");
     } else {
         printf("Total de transacciones: %d\n", cantidad_transacciones);
         printf("Monto total acumulado: %.2f\n", monto_total);
