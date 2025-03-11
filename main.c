@@ -58,19 +58,28 @@ int main()
                 fflush(stdin);
 
                 if (validar_float(entrada)) {
+                    int loginEntrada=strlen(entrada);
+                    if(loginEntrada >12){
+                        system("cls");
+                        printf("Error te paseste de 12 digitos");
+                        getch();
+                        system("cls");
+                        break;
+                    }
                     precio = atof(entrada);
+                    if(precio <= 0){
+                        printf("Las compras en cero no se permiten. \n\nOprime un boton para salir");
+                        getch();
+                        break;
+                    }
                     hacer_compra(precio); 
                 } else {
                     system("cls");
                     printf("Entrada invalida.\n\nOprime una tecla para salir al menu");
                     getch();
-                
-
             }
                 system("cls");
             }
-            
-            
         break;
 
         case 2:
