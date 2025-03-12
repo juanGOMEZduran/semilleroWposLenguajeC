@@ -71,14 +71,14 @@ void navegar_transacciones(char lineas[100][256], int num_lineas) {
         printf("+----+----------------------+--------------------+------------+-----+-------------------+------------------+----------\n");
         printf("\n\n");
         printf("[ ");
-        if (indice > 0) printf("a - Anterior ");
-        if (indice < num_lineas - 1) printf("d - Siguiente ");
+        if (indice > 0) printf("a o A- Siguiente ");
+        if (indice < num_lineas - 1) printf("d o D - Anterior ");
         printf("] (Presiona doblemente 'q' para salir, o 'q' mas cualquier tecla)\n");
         
         tecla = getch();
-        if (tecla == 'a' && indice > 0) indice--;
-        if (tecla == 'd' && indice < num_lineas - 1) indice++;
-    } while (tecla != 'q');
+        if ((tecla == 'a' || tecla == 'A' ) && indice > 0) indice--;
+        if ((tecla == 'd' || tecla == 'D') && indice < num_lineas - 1) indice++;
+    } while (tecla != 'q' );
 }
 
 void ocultar_numero_cuenta(char *numero_cuenta, char *resultado) {
